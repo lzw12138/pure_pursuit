@@ -8,7 +8,7 @@ PurePursuit::PurePursuit() {
     //Car parameter
     pravite_nh.param("base_shape_L", base_shape_L, 0.33); // 机器人轴距
     pravite_nh.param("reference_v", reference_v, 2.0);// 目标速度
-    pravite_nh.param("Lfw", Lfw, 1.0); // 前视距离
+    pravite_nh.param("Lfw", Lfw, 1.5); // 前视距离
 
     //Controller parameter
     pravite_nh.param("controller_freq", controller_freq_, 50);   // 控制频率
@@ -95,6 +95,7 @@ void PurePursuit::odomCallback(const nav_msgs::Odometry::ConstPtr &odomMsg) {
         double car2goal_x = this->goal_pos_.x - odomMsg->pose.pose.position.x;
         double car2goal_y = this->goal_pos_.y - odomMsg->pose.pose.position.y;
         double dist2goal = sqrt(car2goal_x*car2goal_x + car2goal_y*car2goal_y);
+        /// 和move_base一起使用时这段注释解除
 //        if(dist2goal < this->goal_radius)
 //        {
 //            this->goal_reached_ = true;
@@ -111,6 +112,7 @@ void PurePursuit::odomCallback(const nav_msgs::Odometry::ConstPtr &odomMsg) {
  */
 void PurePursuit::pathCallback(const nav_msgs::Path::ConstPtr &pathMsg) {
     this->map_path_ = *pathMsg;
+    /// 和move_base一起使用时下面两行注释掉
     goal_received_ = true;
     goal_reached_ = false;
 }
